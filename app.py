@@ -172,7 +172,7 @@ def answer_question_six():
     one_rec=list(collection.find())
     df = pd.DataFrame(one_rec)
     print(df)
-   
+    #[{Alabama: {Japon: 1, Brazil:3}}]
     doc_dict = json_util.dumps(one_rec)
     return {doc_dict}
 
