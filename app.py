@@ -170,8 +170,10 @@ def answer_question_six():
     collection = db['P6']
     print(collection.find())
     one_rec=list(collection.find())
+    df = pd.DataFrame(one_rec)
+    print(df)
+   
     doc_dict = json_util.dumps(one_rec)
-    print(doc_dict)
     return {doc_dict}
 
 
