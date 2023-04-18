@@ -157,7 +157,10 @@ def answer_question_four():
     collection = db['P4']
     print(collection.find())
     one_rec=list(collection.find())
-    doc_dict = json_util.dumps(one_rec)
+    new_data = [[d['State'], d['Num']] for d in one_rec]
+    new_data.insert(0, ["Estado", "Numero de Barcos"])
+    print(new_data)
+    doc_dict = json_util.dumps(new_data)
     print(doc_dict)
     return {doc_dict}
 
