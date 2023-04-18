@@ -182,13 +182,8 @@ def answer_question_six():
     df = df.drop("_id", axis=1)
     df = df.groupby(["State", "Flag"]).size().reset_index(name='Count')
     df = df.sort_values(['State', 'Count'], ascending=[True, False]).drop_duplicates(subset=['State'], keep='first')
-    data = []
-    for state in df['State'].unique():
-        temp_df = df[df['State'] == state]
-        country_counts = temp_df.iloc[0]['Flag']
-        data.append({state: country_counts})
-
-    json_data = json.dumps(data)
+    df = df.drop("Count", axis=1)
+    json_data = df.to_json(orient='records')
     print(json_data)
     return {json_data}
 
@@ -201,11 +196,7 @@ def answer_question_sseven():
     df = df.drop("_id", axis=1)
     df = df.groupby(["Flag", "Cargo"]).size().reset_index(name='Count')
     df = df.sort_values(['Flag', 'Count'], ascending=[True, False]).drop_duplicates(subset=['Flag'], keep='first')
-    data = []
-    for flag in df['Flag'].unique():
-        temp_df = df[df['Flag'] == flag]
-        cargo_counts = temp_df.iloc[0]['Cargo']
-        data.append({flag: cargo_counts})
-    json_data = json.dumps(data)
+    df = df.drop("Count", axis=1)
+    json_data = df.to_json(orient='records')
     print(json_data)
     return {json_data}
