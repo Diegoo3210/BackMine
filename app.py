@@ -152,6 +152,15 @@ def answer_question_two():
 
     return {data}
 
+@app.get("/getRequest/P4")
+def answer_question_four():
+    collection = db['P4']
+    print(collection.find())
+    one_rec=list(collection.find())
+    doc_dict = json_util.dumps(one_rec)
+    print(doc_dict)
+    return {doc_dict}
+
 # ¿Cómo es la distribución geográfica, en un periodo dado, de las embarcaciones?
 @app.get("/getRequest/P5")
 def answer_question_five():
