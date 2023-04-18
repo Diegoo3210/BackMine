@@ -180,20 +180,26 @@ def answer_question_five():
 @app.get("/getRequest/P6")
 def answer_question_six():
     collection = db['P6']
-    print(collection.find())
     one_rec=list(collection.find())
     df = pd.DataFrame(one_rec)
-    print(df)
-    #[{Alabama: {Japon: 1, Brazil:3}}]
-    doc_dict = json_util.dumps(one_rec)
-    return {doc_dict}
+    df = df.drop("_id", axis=1)
+    df = df.groupby(["State", "Flag"]).size().reset_index(name='Count')
+    df = df.sort_values(['State', 'Count'], ascending=[True, False]).drop_duplicates(subset=['State'], keep='first')
+    df = df.drop("Count", axis=1)
+    json_data = df.to_json(orient='records')
+    print(json_data)
+    return {json_data}
 
 
 @app.get("/getRequest/P7")
 def answer_question_sseven():
     collection = db['P7']
-    print(collection.find())
     one_rec=list(collection.find())
-    doc_dict = json_util.dumps(one_rec)
-    print(doc_dict)
-    return {doc_dict}
+    df = pd.DataFrame(one_rec)
+    df = df.drop("_id", axis=1)
+    df = df.groupby(["Flag", "Cargo"]).size().reset_index(name='Count')
+    df = df.sort_values(['Flag', 'Count'], ascending=[True, False]).drop_duplicates(subset=['Flag'], keep='first')
+    df = df.drop("Count", axis=1)
+    json_data = df.to_json(orient='records')
+    print(json_data)
+    return {json_data}
