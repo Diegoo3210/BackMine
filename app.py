@@ -168,11 +168,13 @@ def answer_question_four():
 @app.get("/getRequest/P5")
 def answer_question_five():
     collection = db['P5_1']
-    print(collection.find())
     one_rec=list(collection.find())
-    doc_dict = json_util.dumps(one_rec)
-    print(doc_dict)
-    return {doc_dict}
+    df = pd.DataFrame(one_rec)
+    df = df.drop("_id", axis=1)
+    df['day'] = (df['day'] - 1) % 7 + 1
+    cargos= df['Cargo'].unique()
+    json_data = df.to_json(orient='records')
+    return {json_data}
 
 # ¿Existe alguna relación entre el día de la semana y el tipo de carga en cada estado?¿La relación cambia por año?
 
